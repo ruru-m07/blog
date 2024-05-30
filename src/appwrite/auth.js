@@ -84,3 +84,4 @@ export default authService
 The benefit of doing this is
 
 --> That when we want to use our own backend services then , we can just modify the class constructors and the user creation method 
+*/
