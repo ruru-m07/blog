@@ -1,5 +1,5 @@
-import React from 'react';
-import {Container , PostForm} from '../components/index';
+import React from 'react'
+import { Container, PostForm } from '../components'
 
 function AddPost() {
   return (
@@ -8,7 +8,7 @@ function AddPost() {
             <PostForm />
         </Container>
     </div>
-  );
+  )
 }
 
-export default AddPost;
+export default AddPost
