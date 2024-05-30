@@ -1,35 +1,34 @@
-import conf from "../conf/conf";
+import conf from '../conf/conf.js';
 import { Client, Account, ID } from "appwrite";
 
 
-export class AuthService{
+export class AuthService {
     client = new Client();
     account;
 
-    constructor(){
+    constructor() {
         this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
-
         this.account = new Account(this.client);
+            
     }
 
-    async createAccount({email, password, name}){
+    async createAccount({email, password, name}) {
         try {
-            const userAccount = await this.account.create(ID.unique(), email, password, name)      // first field should be useerID and 2nd should be email
-            if(userAccount){
-                // call another method   --  apparently we want to login the user aswell when user is created , we may or may not , totally upto us
-                return this.login({email,password});
-            }
-            else{
-                return userAccount;
+            const userAccount = await this.account.create(ID.unique(), email, password, name);
+            if (userAccount) {
+                // call another method
+                return this.login({email, password});
+            } else {
+               return  userAccount;
             }
         } catch (error) {
             throw error;
         }
     }
 
-    async login({email, password}){
+    async login({email, password}) {
         try {
             return await this.account.createEmailSession(email, password);
         } catch (error) {
@@ -37,30 +36,29 @@ export class AuthService{
         }
     }
 
-    async getCurrentUser(){
+    async getCurrentUser() {
         try {
             return await this.account.get();
         } catch (error) {
-            console.log("Appwrite error :: getCurrentUSer :: error", error);
+            console.log("Appwrite serive :: getCurrentUser :: error", error);
         }
 
-        return null; // so that if it fails to get the user then it return something (null) instead of returning something undefined.
+        return null;
     }
 
-    async logout(){
+    async logout() {
+
         try {
-            // await this.account.deleteSession('current');
             await this.account.deleteSessions();
         } catch (error) {
-            console.log("Appwrite error :: Logout :: error", error);
+            console.log("Appwrite serive :: logout :: error", error);
         }
     }
-
-};
+}
 
 const authService = new AuthService();
 
-export default authService;
+export default authService
 
 
 // const client = new Client()
@@ -86,5 +84,3 @@ export default authService;
 The benefit of doing this is
 
 --> That when we want to use our own backend services then , we can just modify the class constructors and the user creation method 
-
-*/
